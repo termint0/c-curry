@@ -52,6 +52,8 @@ CURRY_NEW(curry2, curry, b);
 // trying to curry with 3 args for a function with 2 args
 // will call abort()
 CURRY_INPLACE(curry2, b);
+FREE_CURRY(curry);
+FREE_CURRY(curry2);
 ```
 #### Calling
 If a function has all of its args bound, it can be called. For convenience, I also added the `CALL<n>` macros, which bind `<n>` args to the function and call it.
@@ -79,4 +81,5 @@ CURRY_INPLACE(curry, b);
 
 CALL(curry, &result)
 // result == 200
+FREE_CURRY(curry);
 ```
