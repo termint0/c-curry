@@ -56,7 +56,7 @@ FREE_CURRY(curry);
 FREE_CURRY(curry2);
 ```
 #### Calling
-If a function has all of its args bound, it can be called. For convenience, I also added the `CALL<n>` macros, which bind `<n>` args to the function and call it.
+If a function has all of its args bound, it can be called using the `CALL` macro. For convenience, there is the `CALL<n>(cfoo, arg_1, ..., arg_n)` macro, which binds `<n>` args to the function and calls it, leaving `cfoo` intact.
 ```c
 long result;
 CurriedFunction curry = INIT_CURRY(lmultiply);
