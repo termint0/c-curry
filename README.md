@@ -1,5 +1,5 @@
 ### Currying for C
-This is a set of C macros that make it easy to use currying (or rather partial application) of functions in C.
+This is a set of C macros that make it easy to use currying (or rather partial application) of functions in C. This code was made as a personal fun project and shouldn't be used in production without a thorough review of the source code.
 
 ### Use
 #### Declaring a function
