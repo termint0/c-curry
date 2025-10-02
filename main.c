@@ -13,18 +13,18 @@ FUNCTION1(
     long, val2)
 
 FUNCTION2(
-    foo2,
+    lmultiply,
     // arg 1
-    int, a,
+    long, a,
     // arg 2
-    int, b,
+    long, b,
     // implementation
     {
       // code
       mul = a * b;
     },
     // return type
-    int, mul)
+    long, mul)
 
 int main(int argc, char *argv[]) {
   { // 1 arg curry
@@ -33,8 +33,8 @@ int main(int argc, char *argv[]) {
     long b = 20l;
     long result;
     CurriedFunction newCurry = INIT_CURRY(foo1);
-    CURRY_NEW(newCurry, curry, &b);
-    CURRY_INPLACE(curry, &a);
+    CURRY_NEW(newCurry, curry, b);
+    CURRY_INPLACE(curry, a);
     CALL(curry, &result);
     printf("result: %ld\n", result);
     CALL(newCurry, &result);
@@ -44,15 +44,15 @@ int main(int argc, char *argv[]) {
   }
   { // 2 args
     int result;
-    CurriedFunction curry = INIT_CURRY(foo2);
+    CurriedFunction curry = INIT_CURRY(lmultiply);
     int a = 10;
 
-    CALL2(curry, &a, &a, &result);
+    CALL2(curry, a, a, &result);
     printf("Result %d\n", result);
 
-    CURRY_INPLACE(curry, &a);
+    CURRY_INPLACE(curry, a);
     for (int i = 0; i < 11; ++i) {
-      CALL1(curry, &i, &result);
+      CALL1(curry, i, &result);
       printf("Result %d\n", result);
     }
     FREE_CURRY(curry);

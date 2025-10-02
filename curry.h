@@ -27,7 +27,7 @@ typedef struct {
 
 #define ERROR(msg) __EXEC(fprintf(stderr, "%s\n", msg); abort();)
 
-#define FUNCTIONx(__argCount, __name, __rtype, __rname, __impl)                \
+#define __FUNCTIONx(__argCount, __name, __rtype, __rname, __impl)                \
   void __##__name(Arg *__args, int __argc, void *__out) {                      \
     if (__argc != __argCount) {                                                \
       ERROR("Bad arg count for function");                                     \
@@ -39,7 +39,7 @@ typedef struct {
   Function __name = {&__##__name, __argCount};
 
 #define FUNCTION1(__name, __type1, __arg1, __impl, __rtype, __rname)           \
-  FUNCTIONx(1, __name, __rtype, __rname, {                                     \
+  __FUNCTIONx(1, __name, __rtype, __rname, {                                     \
     if (__args[0].size != sizeof(__type1)) {                                   \
       ERROR("Bad arg1 size for function");                                     \
     }                                                                          \
@@ -49,7 +49,7 @@ typedef struct {
 
 #define FUNCTION2(__name, __type1, __arg1, __type2, __arg2, __impl, __rtype,   \
                   __rname)                                                     \
-  FUNCTIONx(2, __name, __rtype, __rname, {                                     \
+  __FUNCTIONx(2, __name, __rtype, __rname, {                                     \
     if (__args[0].size != sizeof(__type1)) {                                   \
       ERROR("Bad arg1 size for function");                                     \
     }                                                                          \
@@ -63,7 +63,7 @@ typedef struct {
 
 #define FUNCTION3(__name, __type1, __arg1, __type2, __arg2, __impl, __rtype,   \
                   __rname)                                                     \
-  FUNCTIONx(3, __name, __rtype, __rname, {                                     \
+  __FUNCTIONx(3, __name, __rtype, __rname, {                                     \
     if (__args[0].size != sizeof(__type1)) {                                   \
       ERROR("Bad arg1 size for function");                                     \
     }                                                                          \
@@ -97,8 +97,8 @@ typedef struct {
   __EXEC(if (__cfunc.len == __cfunc.fun->argCount) {                           \
     ERROR("Trying to curry with more params than function accepts");           \
   } __cfunc.args[__cfunc.len]                                                  \
-             .val = __val;                                                     \
-         __cfunc.args[__cfunc.len].size = sizeof(*__val); __cfunc.len++;)
+             .val = &__val;                                                     \
+         __cfunc.args[__cfunc.len].size = sizeof(__val); __cfunc.len++;)
 // Call the CurriedFunction
 #define CALL(__cfun, __out)                                                    \
   __EXEC(__cfun.fun->fun(__cfun.args, __cfun.len, __out);)
